@@ -1,17 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useFetch } from './useFetch'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const {data,loading,error,handleCancelRequest} = useFetch('https://jsonplaceholder.typicode.com/users')
 
   return (
     <div className="App"> 
       <h1 className="">
         Fetch like Pro
       </h1>
-      <div className="card"></div>
+      <div className="card">
+        <button onClick={handleCancelRequest}>Cancel Request</button>
+        { loading && <p>Loading...</p> }
+        { error && <p>Error: {error}</p> }
+        { data?.map((user) => (<li key={user.id}>{user.name}</li>)) }
+      </div>
     </div>
   )
 }
